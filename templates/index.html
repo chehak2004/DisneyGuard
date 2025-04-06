@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DisneyGuard AI</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #58a6ff;
+    }
+    button {
+      background-color: #238636;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #results {
+      margin-top: 30px;
+      background-color: #161b22;
+      padding: 20px;
+      border-radius: 10px;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛡️ DisneyGuard AI</h1>
+  <p>Scan websites for Disney/Marvel piracy content</p>
+  <button onclick="runScan()">Scan Now</button>
+  <div id="results"></div>
+
+  <script>
+    async function runScan() {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = 'Scanning... 🔎';
+      try {
+        const res = await fetch('/scan');
+        const data = await res.json();
+        if (data.violations.length === 0) {
+          resultsDiv.innerHTML = '<p>No piracy detected. ✅</p>';
+        } else {
+          resultsDiv.innerHTML = '<h3>🚨 Piracy Detected:</h3><ul>' +
+            data.violations.map(v => `<li><strong>${v.site}</strong>: ${v.status}</li>`).join('') +
+            '</ul>';
+        }
+      } catch (err) {
+        resultsDiv.innerHTML = '❌ Error occurred.';
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
