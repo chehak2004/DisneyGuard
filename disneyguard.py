@@ -32,7 +32,7 @@ def generate_gemini_response(prompt):
 
 def scrape_piracy_websites():
     piracy_sites = [
-        "http://localhost:5000/testsite.html",
+        "https://chehak-solution-challenge.vercel.app/",
         "https://www.wikipedia.org",
         "https://www.imdb.com"
     ]
